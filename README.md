@@ -33,17 +33,3 @@ The theoretical values are based on the properties of a sample proportion from a
   $$\mu = p$$
 - **Expected Standard Deviation ($\sigma$):** The spread of the expected proportions relies on the probability and the number of trials ($N$).
   $$\sigma = \sqrt{\frac{p(1-p)}{N}}$$
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/your-username/probability-simulation-dashboard.git](https://github.com/your-username/probability-simulation-dashboard.git)
-   cd probability-simulation-dashboard
-   ```
