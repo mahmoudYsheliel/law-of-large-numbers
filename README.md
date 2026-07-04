@@ -1,5 +1,10 @@
 # Probability Simulation Dashboard 🎲
 
+
+
+https://github.com/user-attachments/assets/c1d2a02a-3504-4fe4-8f88-06a23eef8379
+
+
 A modern, responsive Vue 3 dashboard designed to visualize statistical concepts like the **Law of Large Numbers** and **Binomial Probability Distributions**. Built with TypeScript, PrimeVue, and Chart.js, this tool allows users to run Monte Carlo-style simulations and compare empirical results against theoretical mathematical expectations in real-time.
 
 ## Features
