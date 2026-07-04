@@ -1,42 +1,44 @@
-# law-of-large-numbers
+# Probability Simulation Dashboard 🎲
 
-This template should help get you started developing with Vue 3 in Vite.
+A modern, responsive Vue 3 dashboard designed to visualize statistical concepts like the **Law of Large Numbers** and **Binomial Probability Distributions**. Built with TypeScript, PrimeVue, and Chart.js, this tool allows users to run Monte Carlo-style simulations and compare empirical results against theoretical mathematical expectations in real-time.
 
-## Recommended IDE Setup
+## Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Interactive Parameters:** Dynamically adjust the True Event Probability, Number of Trials, and Number of Episodes.
+- **Line Chart Mode (Law of Large Numbers):** Visualizes how the empirical running probability converges toward the true probability as the number of trials increases.
+- **Bar Chart Mode (Probability Distribution):** Simulates a Binomial distribution across multiple episodes to show the frequency of outcomes.
+- **Real-time Mathematical Expectations:** Automatically calculates and displays the theoretical expected Mean and Standard Deviation based on user inputs.
+- **Modern Dark UI:** A sleek, responsive layout utilizing PrimeVue components and custom CSS.
 
-## Recommended Browser Setup
+## Tech Stack
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **Framework:** [Vue 3](https://vuejs.org/) (Composition API & `<script setup>`)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **UI Components:** [PrimeVue](https://primevue.org/)
+- **Icons:** PrimeIcons
+- **Data Visualization:** [Chart.js](https://www.chartjs.org/) (via PrimeVue `<Chart />`)
 
-## Type Support for `.vue` Imports in TS
+## Mathematical Context
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+This dashboard calculates both theoretical expectations and empirical (simulated) results.
 
-## Customize configuration
+The theoretical values are based on the properties of a sample proportion from a Binomial distribution:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Expected Mean ($\mu$):** The expected proportion of successes equals the true probability of the event.
+  $$\mu = p$$
+- **Expected Standard Deviation ($\sigma$):** The spread of the expected proportions relies on the probability and the number of trials ($N$).
+  $$\sigma = \sqrt{\frac{p(1-p)}{N}}$$
 
-## Project Setup
+## 🚀 Getting Started
 
-```sh
-npm install
-```
+### Prerequisites
 
-### Compile and Hot-Reload for Development
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-```sh
-npm run dev
-```
+### Installation
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/probability-simulation-dashboard.git](https://github.com/your-username/probability-simulation-dashboard.git)
+   cd probability-simulation-dashboard
+   ```
