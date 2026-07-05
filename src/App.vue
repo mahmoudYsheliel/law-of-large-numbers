@@ -93,35 +93,78 @@ function getChartData(mode: Mode, trialsCount: number, episodesCount: number, ev
     }
     else if (mode == 'bar') {
         // Bar Mode: Demonstrates Probability Distribution across multiple episodes
-        const length = Math.min(trialsCount + 1, 50) // Cap bins to avoid UI clutter
-        const labels = Array.from({ length }, (_, i) => (i / length).toFixed(4));
-        const data = Array.from({ length }, () => 0);
-        const episodeResults = []
+        const length = Math.min(trialsCount, 50); // Cap bins to avoid UI clutter
 
+        // Adjusted to perfectly map 0 to 1 based on the length
+        const labels = Array.from({ length }, (_, i) => (i / (length - 1)).toFixed(2));
+        const data = Array.from({ length }, () => 0);
+        const episodeResults = [];
+
+        // 1. Generate Empirical Data
         for (let i = 0; i < episodesCount; i++) {
-            let total = 0
+            let total = 0;
             for (let j = 0; j < trialsCount; j++) {
-                total += Math.random() < eventProb ? 1 : 0
+                total += Math.random() < eventProb ? 1 : 0;
             }
-            const prob = (total / trialsCount)
-            episodeResults.push(prob)
-            const index = Math.floor(prob * (length - 1))
-            data[index]! += 1
+            const prob = (total / trialsCount);
+            episodeResults.push(prob);
+
+            let index = Math.floor(prob * (length - 1));
+            // Safety bound in case prob is exactly 1.0
+            if (index >= length) index = length - 1;
+            data[index]! += 1;
         }
 
-        const mean = calcMean(episodeResults).toFixed(4)
-        const std = calcSTD(episodeResults).toFixed(4)
-        const info = `Mean: ${mean} | STD: ${std}`
+        const mean = calcMean(episodeResults).toFixed(4);
+        const std = calcSTD(episodeResults).toFixed(4);
+        const info = `Mean: ${mean} | STD: ${std}`;
+
+        // 2. Generate Expected Normal Distribution
+        const expectedData = [];
+        const mu = eventProb; // Expected mean
+        const variance = (eventProb * (1 - eventProb)) / trialsCount;
+        const sigma = Math.sqrt(variance); // Expected standard deviation
+        const binWidth = 1 / (length - 1);
+
+        for (let i = 0; i < length; i++) {
+            const x = i / (length - 1); // The specific probability (x-axis) for this bin
+
+            if (sigma === 0) {
+                // Edge case: if true probability is exactly 0 or 1
+                expectedData.push(x === mu ? episodesCount : 0);
+            } else {
+                // Normal Probability Density Function (PDF)
+                const exponent = -0.5 * Math.pow((x - mu) / sigma, 2);
+                const pdf = (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(exponent);
+
+                // Scale the PDF by total episodes and bin width to match the frequency histogram
+                const expectedFrequency = pdf * episodesCount * binWidth;
+                expectedData.push(expectedFrequency);
+            }
+        }
 
         return {
             labels,
             datasets: [
                 {
+                    type: 'bar', // Explicitly declare this dataset as the bars
                     label: `Frequency Distribution (${info})`,
                     data,
                     backgroundColor: 'rgba(96, 165, 250, 0.8)', // PrimeVue Blue
                     borderColor: '#3b82f6',
                     borderWidth: 1,
+                    order: 2 // Draw behind the line
+                },
+                {
+                    type: 'line', // The overlaid expected normal curve
+                    label: 'Expected Normal Distribution',
+                    data: expectedData,
+                    borderColor: '#f87171', // PrimeVue Red
+                    borderWidth: 2,
+                    tension: 0.4, // Smooth curve
+                    pointRadius: 0, // Hide data point circles
+                    fill: false,
+                    order: 1 // Draw on top
                 }
             ]
         };
